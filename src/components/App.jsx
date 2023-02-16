@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "../index.css"
-// import { FormEvent } from 'react';
 import ContactList from './ContactList/ContactList';
-import Basic from './Form/Form';
+import FormField from './Form/FormField';
 import Filter from "./Filter/Filter";
-import {Input} from "./Input";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const user = [
   {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -14,7 +13,7 @@ const user = [
 ];
 
 export const App = () => {
-  const [contacts, setContacts] = useState(user);
+  const [contacts, setContacts] = useLocalStorage('contacts', user);
   const [filter, setFilter] = useState("");
 
   const setNewContact = (newContact)=>{
@@ -43,12 +42,13 @@ export const App = () => {
      const onDeleteButton = (contactID) => {
             setContacts(contacts.filter(contact => contact.id !== contactID)) }
 
-            return <div>
-        <Basic setNewContact={setNewContact}/>
+        return <div className="my-3">
+          <div className="flex flex-col gap-6 max-w-md m-auto">
+        <h1 className="text-3xl font-semibold text-center">Phonebook</h1>
+        <FormField setNewContact={setNewContact}/>
         <Filter contacts={contacts} filter={filter} onChange={handleFilter}/>
         <ContactList visibleContacts={contactsFilter} onDeleteButton={onDeleteButton}/>
-        <br/>
-        <Input/>
+        </div>
       </div> 
            
            
